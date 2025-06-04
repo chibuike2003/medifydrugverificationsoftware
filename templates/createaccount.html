@@ -1,0 +1,125 @@
+Here is the updated HTML code with the Medify Bank logo applied to the connect buttons:
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bank Details & Solana Wallet Connection</title>
+    <link rel="shortcut icon" type="image/png" href="../static/assets/img/medify.jpg" sizes="16x16">
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin-top: 50px;
+        }
+        
+        .form-section {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        
+        .heading {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .toggle-section {
+            display: none;
+        }
+        
+        .section-header {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        /* Medify Bank branding colors */
+        .btn-connect-medify {
+            background-color: #3498DB; /* Medify Bank blue */
+            color: white;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-connect-medify:hover {
+            background-color: #2E67D5;
+        }
+        
+        .medify-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h3 class="heading">Bank Details or Solana Wallet</h3>
+            <div class="form-group text-center">
+                <button class="btn btn-custom" id="bankDetailsBtn">Enter Bank Details</button>
+                <button class="btn btn-custom" id="solanaWalletBtn">Connect Solana Wallet</button>
+            </div>
+            <!-- Bank Details Form -->
+            <div id="bankDetailsForm" class="toggle-section">
+                <h4 class="section-header">Enter Your Bank Details</h4>
+                <form>
+                    <div class="form-group">
+                        <label for="accountName">Account Holder Name</label>
+                        <input type="text" class="form-control" id="accountName" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="bankName">Bank Name</label>
+                        <input type="text" class="form-control" id="bankName" placeholder="Enter your bank name">
+                    </div>
+                    <div class="form-group">
+                        <label for="accountNumber">Account Number</label>
+                        <input type="text" class="form-control" id="accountNumber" placeholder="Enter your account number">
+                    </div>
+                    <div class="form-group">
+                        <label for="routingNumber">Routing Number</label>
+                        <input type="text" class="form-control" id="routingNumber" placeholder="Enter your routing number">
+                    </div>
+                    <button type="submit" class="btn btn-custom btn-block">Submit Bank Details</button>
+                    <button class="btn-connect-medify" id="connectMedifyBtn">
+                        <img src="medify-bank-logo.png" class="medify-logo">
+                        Connect Medify Bank Account
+                    </button>
+                </form>
+            </div>
+            <!-- Solana Wallet Form -->
+            <div id="solanaWalletForm" class="toggle-section">
+                <h4 class="section-header">Connect Your Solana Wallet</h4>
+                <div class="form-group">
+                    <label for="solanaWallet">Solana Wallet Name</label>
+                    <input type="text" class="form-control" id="solanaWalletname" placeholder="Enter your Solana wallet address">
+                </div>
+                <div class="form-group">
+                    <label for="solanaWallet">Solana Wallet Address</label>
+                    <input type="text" class="form-control" id="solanaWallet" placeholder="Enter your Solana wallet address">
+                </div>
+                <button type

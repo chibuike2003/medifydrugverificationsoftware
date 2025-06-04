@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account</title>
+  <link rel="shortcut icon" type="image/png" href="../static/assets/img/medify.jpg" sizes="16x16">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f4f6f9;
+      font-family: 'Arial', sans-serif;
+    }
+    .container-box {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      transition: all 0.3s ease;
+    }
+    .container-box:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+    .container-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    .btn-primary-custom {
+      background-color: #3498db;
+      border-color: #3498db;
+    }
+    .btn-primary-custom:hover {
+      background-color: #2980b9;
+      border-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-4 mb-4">
+      <!-- User Account Container -->
+      <div class="container-box text-center">
+        <h3 class="container-title">Create Account as User</h3>
+        <p>Join us as a user and start enjoying our services.</p>
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-primary-custom w-100">Create Account</a>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <!-- Distributor Account Container -->
+      <div class="container-box text-center">
+        <h3 class="container-title">Create Account as Distributor</h3>
+        <p>Become a distributor and expand your business with us.</p>
+        <a href="{{ url_for('distributor_signup') }}" class="btn btn-primary btn-primary-custom w-100">Create Account</a>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <!-- Manufacturer Account Container -->
+      <div class="container-box text-center">
+        <h3 class="container-title">Create Account as Manufacturer</h3>
+        <p>Partner with us as a manufacturer and grow your production.</p>
+        <a href="{{ url_for('manufacturer_signup') }}" class="btn btn-primary btn-primary-custom w-100">Create Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+              
+        
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

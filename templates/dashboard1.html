@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | Medify</title>
+  <link rel="shortcut icon" type="image/png" href="../static/assets/img/medify.jpg" sizes="16x16">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-lg px-6 py-4 flex justify-between items-center">
+    <div class="site-logo">
+      <a href="#">
+        <img src="../static/assets/img/medify.jpg" alt="" style="max-height: 30px;
+        width: auto;">							</a>
+    </div>    <ul class="hidden md:flex gap-8 text-sm font-medium">
+      <li><a href="#" class="hover:text-blue-600">Dashboard</a></li>
+      <li><a href="#" class="hover:text-blue-600">Profile</a></li>
+      <li><a href="#" class="hover:text-blue-600">Settings</a></li>
+    </ul>
+    <div class="flex items-center gap-4">
+      <button id="langBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">Language</button>
+      <div class="relative">
+        <button id="moreBtn" class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">More</button>
+        <div id="dropdown" class="absolute right-0 mt-2 w-56 bg-white border rounded-lg shadow-lg hidden z-50">
+          <a href="#overview" class="block px-4 py-2 hover:bg-gray-100">Overview</a>
+          <a href="news.html" class="block px-4 py-2 hover:bg-gray-100">Manufacturer News</a>
+          <a href="friends.html" class="block px-4 py-2 hover:bg-gray-100">Connect with Friends</a>
+          <a href="store.html" class="block px-4 py-2 hover:bg-gray-100">Pharmacy Store</a>
+          <a href="{{ url_for('view_drugs') }}" class="block px-4 py-2 hover:bg-gray-100">Your Store</a>
+          <a href="{{ url_for('show_drug_form') }}" class="block px-4 py-2 hover:bg-gray-100">Add Drugs</a>
+          
+          <a href="{{ url_for('account') }}" class="block px-4 py-2 hover:bg-gray-100">Update Account</a>
+          <a href="{{ url_for('chatbot') }}" class="block px-4 py-2 hover:bg-gray-100">Chatbot</a>
+          <a href="profile.html" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+          <a href="settings.html" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+          <a href="issue.html" class="block px-4 py-2 hover:bg-gray-100">Help Center</a>
+          <a href="{{ url_for('distributorlogout') }}" class="block px-4 py-2 hover:bg-gray-100 text-red-500">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Dashboard Main Section -->
+  <main class="max-w-6xl mx-auto mt-10 px-6">
+    <h1 class="text-3xl font-bold mb-2" id="welcomeText">Welcome to your Medify Dashboard Distributor {{ distributor.fullname }}</h1>
+    <p class="text-gray-600 mb-6" id="descText">Here you can manage appointments, health records, and more.</p>
+
+    <div class="bg-white rounded-lg shadow-md p-6 flex flex-col md:flex-row items-center gap-6"  style="background-color: black;color: antiquewhite; box-shadow: 50%; border: 20px solid white;">
+      <img src="../static/assets/img/medify.jpg" alt="Profile" class="rounded-full w-32 h-32 object-cover">
+      <div>
+        <h2 class="text-xl font-semibold">{{ distributor.fullname }}</h2>
+        <p><strong>Company:</strong> {{ distributor.company }}</p>
+        <p><strong>Email:</strong> {{ distributor.email }}</p>
+        <p><strong>Phone:</strong> {{ distributor.phone }}</p>
+        <p><strong>Location:</strong> {{ distributor.location }}</p>
+      </div>
+    </div>
+
+    <!-- Dashboard Features -->
+    <div class="grid md:grid-cols-3 gap-6 mt-10">
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <div class="flex items-center gap-3">
+          <div class="bg-blue-100 text-blue-600 p-3 rounded-full">
+            📅
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Appointments</h3>
+            <p class="text-sm text-gray-500">View upcoming schedules and consultations.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <div class="flex items-center gap-3">
+          <div class="bg-green-100 text-green-600 p-3 rounded-full">
+            🧾
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Account</h3>
+            <button style=" background-color: green; color: white;">   withdraw</button>
+<span>!0 points</span>
+            <p class="text-sm text-gray-500">Manage your account and settings.</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+        <div class="flex items-center gap-3">
+          <div class="bg-purple-100 text-purple-600 p-3 rounded-full">
+            💊
+          </div>
+          <div>
+            <h3 class="text-lg font-semibold">Pharmacy</h3>
+            <p class="text-sm text-gray-500">Order and track medications.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Language Modal -->
+  <div id="language-modal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+    <div class="bg-white p-6 rounded-lg text-center w-80">
+      <h3 class="text-lg font-semibold mb-4">Select a Language</h3>
+      <select id="language-select" class="w-full border rounded px-3 py-2 mb-4">
+        <option value="en">English</option>
+        <option value="fr">French</option>
+        <option value="es">Spanish</option>
+        <option value="de">German</option>
+        <option value="zh">Chinese</option>
+      </select>
+      <div class="flex justify-between">
+        <button class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" onclick="saveLanguage()">Save</button>
+        <button class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" onclick="closeLanguageModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const langBtn = document.getElementById("langBtn");
+    const welcomeText = document.getElementById("welcomeText");
+    const descText = document.getElementById("descText");
+    let isEnglish = true;
+
+    langBtn.addEventListener("click", () => {
+      document.getElementById("language-modal").classList.remove("hidden");
+    });
+
+    function closeLanguageModal() {
+      document.getElementById("language-modal").classList.add("hidden");
+    }
+
+    function saveLanguage() {
+      const selected = document.getElementById("language-select").value;
+      if (selected === "fr") {
+        welcomeText.textContent = "Bienvenue sur votre tableau de bord Medify";
+        descText.textContent = "Gérez vos rendez-vous, dossiers médicaux, et plus ici !";
+      } else {
+        welcomeText.textContent = "Welcome to your Medify Dashboard";
+        descText.textContent = "Here you can manage appointments, health records, and more.";
+      }
+      closeLanguageModal();
+    }
+
+    const moreBtn = document.getElementById("moreBtn");
+    const dropdown = document.getElementById("dropdown");
+    moreBtn.addEventListener("click", () => dropdown.classList.toggle("hidden"));
+    document.addEventListener("click", e => {
+      if (!moreBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  </script>
+</body>
+</html>

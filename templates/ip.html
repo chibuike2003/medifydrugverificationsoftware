@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+</head>
+<body>
+    <h2>Signup Form</h2>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+    
+    <form method="POST" action="/signup">
+        <p>
+            <label>
+                <input type="checkbox" name="consent" value="yes" required>
+                I agree to IP and location tracking
+            </label>
+        </p>
+        <button type="submit">Create Account</button>
+    </form>
+</body>
+</html>

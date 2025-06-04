@@ -1,0 +1,296 @@
+<<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medify Chat</title>
+	<link rel="shortcut icon" type="image/png" href="../static/assets/img/medify.jpg" sizes="16x16">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0;
+        }
+        
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            max-width: 400px;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .menu-icon {
+            cursor: pointer;
+            font-size: 24px;
+        }
+        
+        .menu {
+            display: none;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .menu button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .menu button:hover {
+            background-color: #0056b3;
+        }
+        
+        .history-list {
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .history-item {
+            cursor: pointer;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .history-item:hover {
+            background: #f4f4f4;
+        }
+        
+        .chat-box {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .chat-input-container {
+            padding: 10px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .chat-input-container input {
+            width: 75%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        
+        .chat-input-container button {
+            width: 20%;
+            padding: 10px;
+            margin-left: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .chat-input-container button:hover {
+            background-color: #0056b3;
+        }
+        
+        @media only screen and (max-width: 768px) {
+            .chat-container {
+                width: 90%;
+            }
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .chat-container {
+                width: 100%;
+            }
+            .chat-input-container input {
+                width: 60%;
+            }
+            .chat-input-container button {
+                width: 30%;
+            }
+        }
+    </style>
+
+</head>
+<body>
+    <div class="chat-container">
+            <a href="dashboard.html" class="dashboard-link">🏠 Back to Dashboard</a>
+      <div class="chat-header">
+            Medify Chatbot 
+            <span class="menu-icon" onclick="toggleMenu()">☰</span>
+        </div>
+        <div class="menu" id="menu">
+            <button onclick="newChat()">New Chat</button>
+            <button onclick="toggleHistory()">Chat History</button>
+            <button onclick="changeUser()">Create a Username</button>
+        </div>
+        <div class="history-list" id="history-list"></div>
+        <div class="chat-box" id="chat-box"></div>
+        <div class="chat-input-container" style="background -color: blue; color: white">
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentUser = localStorage.getItem('currentUser');
+
+        if (!currentUser) {
+            currentUser = prompt("Enter your username:");
+            localStorage.setItem('currentUser', currentUser);
+        }
+
+        function toggleMenu() {
+            let menu = document.getElementById('menu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function getChatKey() {
+            return `chatHistory_${currentUser}`;
+        }
+
+        function getHistoryKey() {
+            return `chatSessions_${currentUser}`;
+        }
+
+        function loadChatHistory(sessionId = null) {
+            let chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+
+            let allChats = JSON.parse(localStorage.getItem(getChatKey())) || {};
+            if (sessionId && allChats[sessionId]) {
+                let history = allChats[sessionId];
+                history.forEach(msg => {
+                    let messageDiv = document.createElement('div');
+                    messageDiv.classList.add('chat-message', msg.startsWith("You") ? 'user-message' : 'bot-message');
+                    messageDiv.textContent = msg;
+                    chatBox.appendChild(messageDiv);
+                });
+            }
+        }
+
+        function newChat() {
+            let sessionId = new Date().toISOString();
+            let allChats = JSON.parse(localStorage.getItem(getChatKey())) || {};
+            allChats[sessionId] = [];
+            localStorage.setItem(getChatKey(), JSON.stringify(allChats));
+
+            let chatSessions = JSON.parse(localStorage.getItem(getHistoryKey())) || [];
+            chatSessions.push({ id: sessionId, firstMessage: "", timestamp: new Date().toLocaleString() });
+            localStorage.setItem(getHistoryKey(), JSON.stringify(chatSessions));
+
+            loadChatHistory(sessionId);
+        }
+
+        function toggleHistory() {
+            let historyList = document.getElementById('history-list');
+            historyList.innerHTML = '';
+            let chatSessions = JSON.parse(localStorage.getItem(getHistoryKey())) || [];
+
+            chatSessions.forEach(session => {
+                let item = document.createElement('div');
+                item.classList.add('history-item');
+                item.textContent = `${session.timestamp} - ${session.firstMessage || "No message yet"}`;
+                item.onclick = () => loadChatHistory(session.id);
+                historyList.appendChild(item);
+            });
+
+            historyList.style.display = historyList.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function changeUser() {
+            let newUser = prompt("Enter your username:");
+            if (newUser) {
+                currentUser = newUser;
+                localStorage.setItem('currentUser', currentUser);
+                loadChatHistory();
+            }
+        }
+
+        document.getElementById('send-btn').addEventListener('click', sendMessage);
+        document.getElementById('chat-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            let inputField = document.getElementById('chat-input');
+            let message = inputField.value.trim();
+            if (message === '') return;
+
+            let chatBox = document.getElementById('chat-box');
+            let sessionId = Object.keys(JSON.parse(localStorage.getItem(getChatKey())) || {}).pop();
+            if (!sessionId) {
+                newChat();
+                sessionId = Object.keys(JSON.parse(localStorage.getItem(getChatKey())) || {}).pop();
+            }
+
+            let allChats = JSON.parse(localStorage.getItem(getChatKey())) || {};
+            let history = allChats[sessionId] || [];
+
+            if (history.length === 0) {
+                let chatSessions = JSON.parse(localStorage.getItem(getHistoryKey())) || [];
+                let sessionIndex = chatSessions.findIndex(s => s.id === sessionId);
+                if (sessionIndex !== -1) {
+                    chatSessions[sessionIndex].firstMessage = message;
+                    localStorage.setItem(getHistoryKey(), JSON.stringify(chatSessions));
+                }
+            }
+
+            let userMessage = document.createElement('div');
+            userMessage.classList.add('chat-message', 'user-message');
+            userMessage.textContent = `You: ${message}`;
+            chatBox.appendChild(userMessage);
+
+            history.push(`You: ${message}`);
+            allChats[sessionId] = history;
+            localStorage.setItem(getChatKey(), JSON.stringify(allChats));
+
+            inputField.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                let botMessage = document.createElement('div');
+                botMessage.classList.add('chat-message', 'bot-message');
+                botMessage.textContent = 'This is a bot response.';
+                chatBox.appendChild(botMessage);
+
+                history.push(`Bot: This is a bot response.`);
+                allChats[sessionId] = history;
+                localStorage.setItem(getChatKey(), JSON.stringify(allChats));
+
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1000);
+        }
+
+        loadChatHistory();
+    </script>
+</body>
+  </html>
+  
